@@ -3,7 +3,7 @@ using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
 using TaskManagerApp.Repository;
 
-namespace TaskManagerApp.Services;
+namespace TaskManagerApp.Services.Task;
 
 public class TaskService : ITaskService
 {
@@ -51,7 +51,8 @@ public class TaskService : ITaskService
         try
         {
             return _taskRepository.GetAllTasksAsync();
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
             return null;
@@ -63,7 +64,8 @@ public class TaskService : ITaskService
         try
         {
             return _taskRepository.GetTaskByIdAsync(id);
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
             return null;
@@ -77,7 +79,8 @@ public class TaskService : ITaskService
         {
             var taskToUpdate = _mapper.Map<TaskModel>(updateTask);
             return await _taskRepository.UpdateTaskAsync(taskToUpdate);
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
             return false;

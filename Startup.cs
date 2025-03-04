@@ -1,13 +1,18 @@
 ﻿
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
 using TaskManagerApp.DatabaseConnector;
+using TaskManagerApp.Model;
 using TaskManagerApp.Repository;
-using TaskManagerApp.Services;
+using TaskManagerApp.Services.AuthenticationService;
+using TaskManagerApp.Services.Task;
+using TaskManagerApp.Services.TokenService;
 
 
 namespace TaskManagerApp;
@@ -31,15 +36,18 @@ public class Startup
 
         AddSwagger(services);
 
-        /*        AddAuthentication(services);
-                AddIdentity(services);*/
+        AddAuthentication(services);
+        AddIdentity(services);
         var connectionString = Configuration["ConnectionString"];
         services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
 
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITaskService, TaskService>();
 
-
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAuthService, AuthService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -70,10 +78,10 @@ public class Startup
             endpoints.MapControllers();
         });
 
-        /*        AddRoles(app);*/
+        AddRoles(app);
     }
 
-    /*private void AddAuthentication(IServiceCollection services)
+    private void AddAuthentication(IServiceCollection services)
     {
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -90,10 +98,10 @@ public class Startup
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ClockSkew = TimeSpan.Zero,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = false,
-                    ValidateIssuerSigningKey = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ValidIssuer = validIssuer,
                     ValidAudience = validAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(
@@ -120,7 +128,7 @@ public class Startup
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<UserContext>();
     }
-*/
+
     private void AddSwagger(IServiceCollection services)
     {
         services.AddSwaggerGen(option =>
@@ -156,15 +164,14 @@ public class Startup
         });
         });
     }
-}
 
-    /*void AddRoles(IApplicationBuilder app)
+    void AddRoles(IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        var tCoordinator = CreateRole(roleManager, "Coordinator");
-        tCoordinator.Wait();
+        var tAdmin = CreateRole(roleManager, "Admin");
+        tAdmin.Wait();
 
         var tEmployee = CreateRole(roleManager, "Employee");
         tEmployee.Wait();
@@ -180,8 +187,4 @@ public class Startup
             await roleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
-}*/
-
-
-
-
+}

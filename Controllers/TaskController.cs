@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
-using TaskManagerApp.Services;
+using TaskManagerApp.Services.Task;
 
 namespace TaskManagerApp.Controllers;
 [ApiController]
@@ -16,7 +17,7 @@ public class TaskController : Controller
         _logger = logger;
     }
 
-    [HttpGet("GetAllTasks")]
+    [HttpGet("GetAllTasks"), Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<TaskModel>>> GetAllTasks()
     {
         try

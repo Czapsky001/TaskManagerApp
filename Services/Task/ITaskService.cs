@@ -1,7 +1,7 @@
 ﻿using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
 
-namespace TaskManagerApp.Services;
+namespace TaskManagerApp.Services.Task;
 
 public interface ITaskService
 {

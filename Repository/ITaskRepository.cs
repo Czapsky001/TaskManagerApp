@@ -9,5 +9,4 @@ public interface ITaskRepository
     Task<bool> AddTaskAsync(TaskModel task);
     Task<bool> UpdateTaskAsync(TaskModel task);
     Task<bool> DeleteTaskAsync(TaskModel task);
-
 }
