@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagerApp.DatabaseConnector;
 using TaskManagerApp.Model;
 
 namespace TaskManagerApp.Repository;

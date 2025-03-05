@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
-using TaskManagerApp.DatabaseConnector;
 using TaskManagerApp.Model;
 using TaskManagerApp.Repository;
 using TaskManagerApp.Services.AuthenticationService;
@@ -40,7 +39,6 @@ public class Startup
         AddIdentity(services);
         var connectionString = Configuration["ConnectionString"];
         services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
-        services.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
 
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITaskService, TaskService>();
@@ -126,7 +124,7 @@ public class Startup
 
             })
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<UserContext>();
+            .AddEntityFrameworkStores<DatabaseContext>();
     }
 
     private void AddSwagger(IServiceCollection services)

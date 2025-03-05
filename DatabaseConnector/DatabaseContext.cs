@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TaskManagerApp.Model;
 
-
-namespace TaskManagerApp.DatabaseConnector;
-
-public class DatabaseContext : DbContext
+public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
-    public DbSet<TaskModel> Tasks{ get; set; }
+    public DbSet<TaskModel> Tasks { get; set; }
     public DbSet<SubTask> SubTasks { get; set; }
 
-    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-    {
-
-    }
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,6 +16,27 @@ public class DatabaseContext : DbContext
 
         modelBuilder.Entity<TaskModel>()
             .HasKey(t => t.Id);
-    }
 
+        modelBuilder.Entity<ApplicationUser>()
+            .HasMany(u => u.Tasks)
+            .WithOne(t => t.CreatedByUser)
+            .HasForeignKey(t => t.CreatedByUserId);
+
+        modelBuilder.Entity<ApplicationUser>()
+            .HasMany(u => u.SubTasks)
+            .WithOne(s => s.CreatedByUser)
+            .HasForeignKey(s => s.CreatedByUserId);
+
+        modelBuilder.Entity<TaskModel>()
+            .HasOne(t => t.CreatedByUser)
+            .WithMany(t => t.Tasks)
+            .HasForeignKey(t => t.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SubTask>()
+            .HasOne(s => s.CreatedByUser)
+            .WithMany(s => s.SubTasks)
+            .HasForeignKey(s => s.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
