@@ -1,15 +1,15 @@
-# TaskManagerApp – REST API do zarządzania zadaniami (In progress)
-TaskManagerApp to backendowa aplikacja REST API do zarządzania zadaniami, inspirowana funkcjonalnością Asany. Projekt umożliwia użytkownikom tworzenie, edytowanie, usuwanie i organizowanie zadań w ramach różnych projektów.
+# TaskManagerApp – REST API for Task Management
+TaskManagerApp is a backend REST API application for task management, inspired by Asana's functionality. The project allows users to create, edit, delete, and organize tasks within different projects.
 
-✨ Kluczowe funkcje:
-Zarządzanie użytkownikami – rejestracja, logowanie, autoryzacja
-Tworzenie i organizowanie projektów – dodawanie, edytowanie, usuwanie projektów
-Zarządzanie zadaniami – przypisywanie do użytkowników, ustawianie priorytetów, zmiana statusu
-Obsługa komentarzy – dodawanie notatek do zadań
-Obsługa terminów – daty rozpoczęcia i zakończenia zadań
-Autoryzacja i uwierzytelnianie – JWT dla bezpieczeństwa
-🛠 Technologie:
+✨ Key Features:
+User Management – registration, login, authentication
+Project Organization – adding, editing, deleting projects
+Task Management – assigning tasks to users, setting priorities, updating status
+Commenting System – adding notes to tasks
+Deadline Management – start and end dates for tasks
+Authentication & Authorization – JWT for security
+🛠 Tech Stack:
 Backend: C# + ASP.NET Core
-Baza danych: SQL Server / PostgreSQL (Entity Framework)
-Autoryzacja: JWT
-Architektura: REST API, Repository Pattern, Service Layer
+Database: SQL Server / PostgreSQL (Entity Framework)
+Authorization: JWT
+Architecture: REST API, Repository Pattern, Service Layer
