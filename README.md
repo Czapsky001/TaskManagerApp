@@ -1,4 +1,4 @@
-#TaskManagerApp – REST API do zarządzania zadaniami (In progress)
+# TaskManagerApp – REST API do zarządzania zadaniami (In progress)
 TaskManagerApp to backendowa aplikacja REST API do zarządzania zadaniami, inspirowana funkcjonalnością Asany. Projekt umożliwia użytkownikom tworzenie, edytowanie, usuwanie i organizowanie zadań w ramach różnych projektów.
 
 ✨ Kluczowe funkcje:
