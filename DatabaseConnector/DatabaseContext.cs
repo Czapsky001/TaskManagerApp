@@ -20,23 +20,14 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, 
         modelBuilder.Entity<ApplicationUser>()
             .HasMany(u => u.Tasks)
             .WithOne(t => t.CreatedByUser)
-            .HasForeignKey(t => t.CreatedByUserId);
+            .HasForeignKey(t => t.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<ApplicationUser>()
             .HasMany(u => u.SubTasks)
             .WithOne(s => s.CreatedByUser)
-            .HasForeignKey(s => s.CreatedByUserId);
-
-        modelBuilder.Entity<TaskModel>()
-            .HasOne(t => t.CreatedByUser)
-            .WithMany(t => t.Tasks)
-            .HasForeignKey(t => t.CreatedByUserId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<SubTask>()
-            .HasOne(s => s.CreatedByUser)
-            .WithMany(s => s.SubTasks)
             .HasForeignKey(s => s.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
+
 }

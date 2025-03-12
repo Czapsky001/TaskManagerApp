@@ -16,15 +16,28 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
+            var user = await _dbContext.Users.FindAsync(task.CreatedByUserId);
+
+            if (user == null)
+            {
+                _logger.LogError($"User with ID {task.CreatedByUserId} not found.");
+                return false;
+            }
+            task.CreatedByUser = user;
+            user.Tasks.Add(task);
+
             await _dbContext.Tasks.AddAsync(task);
             await _dbContext.SaveChangesAsync();
+
             return true;
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             return false;
         }
     }
+
 
     public async Task<bool> DeleteTaskAsync(TaskModel task)
     {
@@ -44,7 +57,7 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
-            var result = await _dbContext.Tasks.Include(t => t.SubTasks).ToListAsync();
+            var result = await _dbContext.Tasks.Include(t => t.SubTasks).Include(t => t.CreatedByUser).ToListAsync();
             return result;
         }catch(Exception ex)
         {
@@ -53,11 +66,11 @@ public class TaskRepository : ITaskRepository
         }
     }
 
-    public Task<TaskModel> GetTaskByIdAsync(int id)
+    public async Task<TaskModel> GetTaskByIdAsync(int id)
     {
         try
         {
-            var result = _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+            var result = await _dbContext.Tasks.FindAsync(id);
             return result;
         }catch(Exception ex)
         {

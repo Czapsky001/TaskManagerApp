@@ -12,7 +12,7 @@ public class TaskModel
     public string Name { get; set; }
 
     public string Description { get; set; }
-    public DateTime DueDate { get; set; } = DateTime.Now;
+    public DateTime DueDate { get; set; }
     public int Priority { get; set; }
     public string CreatedByUserId { get; set; }
     public ApplicationUser CreatedByUser { get; set; }

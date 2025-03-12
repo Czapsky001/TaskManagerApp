@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TaskManagerApp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250305153533_changeContext")]
-    partial class changeContext
+    [Migration("20250307115838_UpdateTaskRelations")]
+    partial class UpdateTaskRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

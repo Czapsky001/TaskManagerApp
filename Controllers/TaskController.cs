@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Marvin.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
+using TaskManagerApp.Model.Dto.Tasks;
 using TaskManagerApp.Services.Task;
 
 namespace TaskManagerApp.Controllers;
@@ -17,8 +19,8 @@ public class TaskController : Controller
         _logger = logger;
     }
 
-    [HttpGet("GetAllTasks"), Authorize(Roles = "Admin")]
-    public async Task<ActionResult<IEnumerable<TaskModel>>> GetAllTasks()
+    [HttpGet("GetAllTasks")]
+    public async Task<ActionResult<IEnumerable<GetTaskDTO>>> GetAllTasks()
     {
         try
         {
@@ -43,5 +45,29 @@ public class TaskController : Controller
             return false;
         }
     }
+
+    [HttpPut("UpdateTask/{id}")]
+    public async Task<ActionResult<TaskModel>> UpdateTask(int id, [FromBody] UpdateTaskDto updateTaskDto)
+    {
+        try
+        {
+            updateTaskDto.Id = id;
+            var updatedTask = await _taskService.UpdateTaskAsync(updateTaskDto);
+
+            return Ok(updatedTask);
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return BadRequest("Error updating task.");
+        }
+    }
+
+
 
 }

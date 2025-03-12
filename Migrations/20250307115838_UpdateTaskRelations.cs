@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaskManagerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class changeContext : Migration
+    public partial class UpdateTaskRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

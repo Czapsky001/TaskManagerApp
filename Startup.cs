@@ -26,17 +26,22 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-        services.AddControllers();
+        // Konfiguracja serializacji JSON, żeby ignorować cykliczne referencje
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
+
         services.AddCors();
         services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();
         services.AddAutoMapper(typeof(AutoMapperProfile));
 
         AddSwagger(services);
-
         AddAuthentication(services);
         AddIdentity(services);
+
         var connectionString = Configuration["ConnectionString"];
         services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
 
@@ -45,7 +50,6 @@ public class Startup
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IAuthService, AuthService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Marvin.JsonPatch;
+using System.Threading.Tasks;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
+using TaskManagerApp.Model.Dto.Tasks;
 using TaskManagerApp.Repository;
 
 namespace TaskManagerApp.Services.Task;
@@ -46,11 +49,27 @@ public class TaskService : ITaskService
         }
     }
 
-    public Task<IEnumerable<TaskModel>> GetAllTasksAsync()
+    public async Task<IEnumerable<GetTaskDTO>> GetAllTasksAsync()
     {
         try
         {
-            return _taskRepository.GetAllTasksAsync();
+            var tasks = await _taskRepository.GetAllTasksAsync();
+            _logger.LogInformation("Mapping {Count} tasks to DTOs.", tasks.Count());
+            return _mapper.Map<IEnumerable<GetTaskDTO>>(tasks);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving tasks.");
+            return Enumerable.Empty<GetTaskDTO>(); // Zwracamy pustą kolekcję zamiast null
+        }
+    }
+
+
+    public async Task<TaskModel> GetTaskByIdAsync(int id)
+    {
+        try
+        {
+            return await _taskRepository.GetTaskByIdAsync(id);
         }
         catch (Exception ex)
         {
@@ -59,31 +78,21 @@ public class TaskService : ITaskService
         }
     }
 
-    public Task<TaskModel> GetTaskByIdAsync(int id)
+
+    public async Task<bool> UpdateTaskAsync(UpdateTaskDto updateTaskDto)
     {
-        try
+        var task = await _taskRepository.GetTaskByIdAsync(updateTaskDto.Id);
+
+        if (task == null)
         {
-            return _taskRepository.GetTaskByIdAsync(id);
+            throw new ArgumentException("Task not found");
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return null;
-        }
+
+        _mapper.Map(updateTaskDto, task);
+
+        await _taskRepository.UpdateTaskAsync(task);
+
+        return true;
     }
 
-
-    public async Task<bool> UpdateTaskAsync(UpdateTaskDto updateTask)
-    {
-        try
-        {
-            var taskToUpdate = _mapper.Map<TaskModel>(updateTask);
-            return await _taskRepository.UpdateTaskAsync(taskToUpdate);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
-    }
 }
