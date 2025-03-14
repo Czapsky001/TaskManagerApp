@@ -3,8 +3,9 @@ using Marvin.JsonPatch;
 using System.Threading.Tasks;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
+using TaskManagerApp.Model.Dto.SubTasks;
 using TaskManagerApp.Model.Dto.Tasks;
-using TaskManagerApp.Repository;
+using TaskManagerApp.Repository.Task;
 
 namespace TaskManagerApp.Services.Task;
 
@@ -21,7 +22,7 @@ public class TaskService : ITaskService
         _mapper = mapper;
     }
 
-    public async Task<bool> AddTaskAsync(CreateTaskDto task)
+    public async Task<bool> AddTaskAsync(CreateTaskDTO task)
     {
         try
         {
@@ -40,6 +41,11 @@ public class TaskService : ITaskService
         try
         {
             var itemToDelete = await _taskRepository.GetTaskByIdAsync(id);
+            if(itemToDelete == null)
+            {
+                _logger.LogError($"Task with id - {id} does not exist");
+                return false;
+            }
             return await _taskRepository.DeleteTaskAsync(itemToDelete);
         }
         catch (Exception ex)
@@ -54,13 +60,12 @@ public class TaskService : ITaskService
         try
         {
             var tasks = await _taskRepository.GetAllTasksAsync();
-            _logger.LogInformation("Mapping {Count} tasks to DTOs.", tasks.Count());
             return _mapper.Map<IEnumerable<GetTaskDTO>>(tasks);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while retrieving tasks.");
-            return Enumerable.Empty<GetTaskDTO>(); // Zwracamy pustą kolekcję zamiast null
+            _logger.LogError(ex.Message, ex);
+            return Enumerable.Empty<GetTaskDTO>();
         }
     }
 
@@ -77,22 +82,28 @@ public class TaskService : ITaskService
             return null;
         }
     }
-
-
-    public async Task<bool> UpdateTaskAsync(UpdateTaskDto updateTaskDto)
+    public async Task<bool> UpdateTaskAsync(int id, UpdateTaskDTO updateTaskDto)
     {
-        var task = await _taskRepository.GetTaskByIdAsync(updateTaskDto.Id);
-
+        var task = await _taskRepository.GetTaskByIdAsync(id);
         if (task == null)
-        {
-            throw new ArgumentException("Task not found");
-        }
+            return false;
 
         _mapper.Map(updateTaskDto, task);
 
-        await _taskRepository.UpdateTaskAsync(task);
+        return await _taskRepository.UpdateTaskAsync(task);
+    }
 
-        return true;
+    public async Task<IEnumerable<GetTaskDTO>> GetTasksForUserIdAsync(string userId)
+    {
+        try
+        {
+            var tasks = await _taskRepository.GetTasksForUserId(userId);
+            return _mapper.Map<IEnumerable<GetTaskDTO>>(tasks);
+        }catch(Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return new List<GetTaskDTO>();
+        }
     }
 
 }

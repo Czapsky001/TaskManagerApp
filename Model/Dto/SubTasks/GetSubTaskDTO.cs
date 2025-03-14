@@ -1,8 +1,8 @@
-﻿using TaskManagerApp.Model.Dto.SubTasks;
+﻿using TaskManagerApp.Model.Dto.Tasks;
 
-namespace TaskManagerApp.Model.Dto.Tasks;
+namespace TaskManagerApp.Model.Dto.SubTasks;
 
-public class GetTaskDTO
+public class GetSubTaskDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -10,6 +10,6 @@ public class GetTaskDTO
     public DateTime DueDate { get; set; }
     public int Priority { get; set; }
     public TaskStatus TaskStatus { get; set; }
-    public UserDTO CreatedByUser { get; set; }
-    public List<SubTaskDTO> SubTasks { get; set; }
+    public ApplicationUser CreatedByUser { get; set; }
+    public TaskModel ParentTask{ get; set; }
 }

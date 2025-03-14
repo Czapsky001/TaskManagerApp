@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaskManagerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateTaskRelations : Migration
+    public partial class fixsubtasks : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -208,7 +208,7 @@ namespace TaskManagerApp.Migrations
                         column: x => x.ParentTaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

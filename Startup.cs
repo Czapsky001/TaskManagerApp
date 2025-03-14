@@ -8,8 +8,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
 using TaskManagerApp.Model;
-using TaskManagerApp.Repository;
+using TaskManagerApp.Repository.SubTasksRepo;
+using TaskManagerApp.Repository.Task;
 using TaskManagerApp.Services.AuthenticationService;
+using TaskManagerApp.Services.SubTasks;
 using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
 
@@ -47,6 +49,11 @@ public class Startup
 
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITaskService, TaskService>();
+        services.AddScoped<ISubTaskRepo, SubTaskRepo>();
+        services.AddScoped<ISubTaskService, SubTaskService>();
+
+
+
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
