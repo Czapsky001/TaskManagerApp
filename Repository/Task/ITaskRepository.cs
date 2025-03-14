@@ -1,6 +1,6 @@
 ﻿using TaskManagerApp.Model;
 
-namespace TaskManagerApp.Repository;
+namespace TaskManagerApp.Repository.Task;
 
 public interface ITaskRepository
 {
@@ -9,4 +9,5 @@ public interface ITaskRepository
     Task<bool> AddTaskAsync(TaskModel task);
     Task<bool> UpdateTaskAsync(TaskModel task);
     Task<bool> DeleteTaskAsync(TaskModel task);
+    Task<IEnumerable<TaskModel>> GetTasksForUserId(string userId);
 }

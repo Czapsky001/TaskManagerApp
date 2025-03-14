@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TaskManagerApp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250307115838_UpdateTaskRelations")]
-    partial class UpdateTaskRelations
+    [Migration("20250314160628_fix subtasks")]
+    partial class fixsubtasks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "8.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -365,7 +365,7 @@ namespace TaskManagerApp.Migrations
                     b.HasOne("TaskManagerApp.Model.TaskModel", "ParentTask")
                         .WithMany("SubTasks")
                         .HasForeignKey("ParentTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CreatedByUser");

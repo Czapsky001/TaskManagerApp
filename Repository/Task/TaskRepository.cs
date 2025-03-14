@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagerApp.Model;
+using TaskManagerApp.Model.Dto.Tasks;
 
-namespace TaskManagerApp.Repository;
+namespace TaskManagerApp.Repository.Task;
 
 public class TaskRepository : ITaskRepository
 {
@@ -16,16 +17,6 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
-            var user = await _dbContext.Users.FindAsync(task.CreatedByUserId);
-
-            if (user == null)
-            {
-                _logger.LogError($"User with ID {task.CreatedByUserId} not found.");
-                return false;
-            }
-            task.CreatedByUser = user;
-            user.Tasks.Add(task);
-
             await _dbContext.Tasks.AddAsync(task);
             await _dbContext.SaveChangesAsync();
 
@@ -46,7 +37,8 @@ public class TaskRepository : ITaskRepository
             _dbContext.Remove(task);
             await _dbContext.SaveChangesAsync();
             return true;
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             return false;
@@ -59,7 +51,8 @@ public class TaskRepository : ITaskRepository
         {
             var result = await _dbContext.Tasks.Include(t => t.SubTasks).Include(t => t.CreatedByUser).ToListAsync();
             return result;
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             return new List<TaskModel>();
@@ -70,9 +63,9 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
-            var result = await _dbContext.Tasks.FindAsync(id);
-            return result;
-        }catch(Exception ex)
+            return await _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             throw;
@@ -86,10 +79,24 @@ public class TaskRepository : ITaskRepository
             _dbContext.Tasks.Update(task);
             await _dbContext.SaveChangesAsync();
             return true;
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             return false;
+        }
+    }
+    public async Task<IEnumerable<TaskModel>> GetTasksForUserId(string userId)
+    {
+        try
+        {
+            return await _dbContext.Tasks.Where(t => t.CreatedByUserId == userId).Include(u => u.CreatedByUser).Include(s => s.SubTasks).ToListAsync();
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return new List<TaskModel>();
         }
     }
 }
