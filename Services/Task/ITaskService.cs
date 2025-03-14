@@ -11,7 +11,7 @@ public interface ITaskService
 {
     Task<IEnumerable<GetTaskDTO>> GetAllTasksAsync();
     Task<TaskModel> GetTaskByIdAsync(int id);
-    Task<bool> AddTaskAsync(CreateSubTaskDto task);
+    Task<bool> AddTaskAsync(CreateTaskDTO task);
     Task<bool> DeleteTaskAsync(int id);
     Task<bool> UpdateTaskAsync(int id, UpdateTaskDTO updateTaskDto);
     Task<IEnumerable<GetTaskDTO>> GetTasksForUserIdAsync(string userId);

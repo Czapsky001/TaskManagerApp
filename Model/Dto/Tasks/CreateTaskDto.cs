@@ -2,7 +2,7 @@
 
 namespace TaskManagerApp.Model.Dto;
 
-public class CreateSubTaskDto
+public class CreateTaskDTO
 {
     [Required]
     public string CreatedByUserId { get; set; }

@@ -33,7 +33,7 @@ public class TaskController : ControllerBase
         }
     }
     [HttpPost("CreateTask")]
-    public async Task<ActionResult<bool>> CreateTask(CreateSubTaskDto createTaskDto)
+    public async Task<ActionResult<bool>> CreateTask(CreateTaskDTO createTaskDto)
     {
         try
         {

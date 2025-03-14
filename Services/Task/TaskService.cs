@@ -22,7 +22,7 @@ public class TaskService : ITaskService
         _mapper = mapper;
     }
 
-    public async Task<bool> AddTaskAsync(CreateSubTaskDto task)
+    public async Task<bool> AddTaskAsync(CreateTaskDTO task)
     {
         try
         {

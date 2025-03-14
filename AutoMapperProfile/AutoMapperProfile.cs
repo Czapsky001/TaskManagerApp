@@ -11,9 +11,9 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<CreateSubTaskDto, TaskModel>();
+        CreateMap<CreateTaskDTO, TaskModel>();
         CreateMap<UpdateTaskDTO, TaskModel>();
-        CreateMap<TaskModel, CreateSubTaskDto>();
+        CreateMap<TaskModel, CreateTaskDTO>();
         CreateMap<TaskModel, UpdateTaskDTO>();
         CreateMap<GetTaskDTO, TaskModel>();
         CreateMap<ApplicationUser, UserDTO>();
