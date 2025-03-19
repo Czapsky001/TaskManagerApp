@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagerApp", "TaskManagerApp.csproj", "{B0AEE182-69F2-44AA-9493-3A97A6ECC794}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerAppTests", "..\TaskManagerAppTests\TaskManagerAppTests.csproj", "{CA00D498-5E5C-49DD-9205-FCE2020A7F84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B0AEE182-69F2-44AA-9493-3A97A6ECC794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0AEE182-69F2-44AA-9493-3A97A6ECC794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0AEE182-69F2-44AA-9493-3A97A6ECC794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA00D498-5E5C-49DD-9205-FCE2020A7F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA00D498-5E5C-49DD-9205-FCE2020A7F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA00D498-5E5C-49DD-9205-FCE2020A7F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA00D498-5E5C-49DD-9205-FCE2020A7F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
