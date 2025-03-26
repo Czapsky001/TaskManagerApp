@@ -34,6 +34,8 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
+            var subtasks = await _dbContext.SubTasks.Where(st => st.ParentTaskId == task.Id).ToListAsync();
+            _dbContext.SubTasks.RemoveRange(subtasks);
             _dbContext.Remove(task);
             await _dbContext.SaveChangesAsync();
             return true;

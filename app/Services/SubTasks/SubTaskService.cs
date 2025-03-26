@@ -37,14 +37,14 @@ public class SubTaskService : ISubTaskService
     {
         try
         {
-            var subTaskFromRepo = _subTaskRepo.GetSubTaskByIdAsync(id);
+            var subTaskFromRepo = await _subTaskRepo.GetSubTaskByIdAsync(id);
             if(subTaskFromRepo == null)
             {
                 _logger.LogError($"SubTask with id - {id} does not exist");
                 return false;
             }
-            var subTaskToDelete = _mapper.Map<SubTask>(subTaskFromRepo);
-            return await _subTaskRepo.DeleteSubTaskAsync(subTaskToDelete);
+/*            var subTaskToDelete = _mapper.Map<SubTask>(subTaskFromRepo);*/
+            return await _subTaskRepo.DeleteSubTaskAsync(subTaskFromRepo);
         }
         catch (Exception ex)
         {
