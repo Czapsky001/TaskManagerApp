@@ -102,7 +102,7 @@ public class SubTaskService : ISubTaskService
                 _logger.LogError($"Subtask with id - {id} does not exist");
                 return false;
             }
-            var subTaskToUpdate = _mapper.Map<SubTask>(updateSubTaskDto);
+            var subTaskToUpdate = _mapper.Map(updateSubTaskDto, subTask);
             await _subTaskRepo.UpdateSubTaskAsync(subTaskToUpdate);
             return true;
         }catch (Exception ex)

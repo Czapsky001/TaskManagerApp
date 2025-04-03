@@ -58,7 +58,7 @@ public class SubTaskRepo : ISubTaskRepo
 
 
 
-    public  IEnumerable<SubTask> GetSubTasksByUserId(string id)
+    public IEnumerable<SubTask> GetSubTasksByUserId(string id)
     {
         try
         {
@@ -74,7 +74,7 @@ public class SubTaskRepo : ISubTaskRepo
     {
         try
         {
-            return await _dbContext.SubTasks.FirstOrDefaultAsync(s => s.Id == subTaskId);
+            return await _dbContext.SubTasks.FindAsync(subTaskId);
         }catch(Exception ex)
         {
             _logger.LogError(ex.Message, ex);

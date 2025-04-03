@@ -9,5 +9,6 @@ public record RegistrationRequest
     [Required] string SurName,
     [Required] string UserName,
     [Required] string Password,
+    [Required] int CompanyId,
     [Required] string Role
 );

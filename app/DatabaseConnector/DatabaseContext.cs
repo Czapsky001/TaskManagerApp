@@ -7,6 +7,9 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, 
 {
     public DbSet<TaskModel> Tasks { get; set; }
     public DbSet<SubTask> SubTasks { get; set; }
+    public DbSet<Company> Companies { get; set; }
+    public DbSet<WorkTable> WorkTables { get; set; }
+    public DbSet<Tab> Tabs { get; set; }
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
@@ -41,6 +44,35 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, 
             .HasForeignKey(k => k.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<Company>()
+            .HasMany(c => c.WorkTables)
+            .WithOne(w => w.Company)
+            .HasForeignKey(w => w.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<WorkTable>()
+            .HasMany(w => w.Tabs)
+            .WithOne(t => t.WorkTable)
+            .HasForeignKey(t => t.WorkTableId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Tab>()
+            .HasMany(t => t.Tasks)
+            .WithOne(task => task.Tab)
+            .HasForeignKey(task => task.TabId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TaskModel>()
+            .HasOne(t => t.Tab)
+            .WithMany(task => task.Tasks)
+            .HasForeignKey(task => task.TabId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ApplicationUser>()
+            .HasOne(u => u.Company)
+            .WithMany(c => c.Employees)
+            .HasForeignKey(u => u.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

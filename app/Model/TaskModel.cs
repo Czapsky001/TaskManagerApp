@@ -19,6 +19,8 @@ public class TaskModel
     public TaskStatus TaskStatus { get; set; } = TaskStatus.Pending;
 
     public ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
+    public int TabId { get; set; }
+    public Tab Tab { get; set; }
     public TaskModel(){}
 
     public TaskModel(string name, string description, DateTime dueDate, int priority)

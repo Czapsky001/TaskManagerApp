@@ -53,5 +53,29 @@ public class SubTaskController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpPut("UpdateSubTask/{id}")]
+    public async Task<ActionResult<bool>> UpdateSubTask(int id, UpdateSubTaskDTO updateSubTaskDTO)
+    {
+        try
+        {
+            var subTaskToUpdate = await _subTaskService.UpdateSubTaskAsync(id, updateSubTaskDTO);
+            return Ok(subTaskToUpdate);
+        }catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpDelete("DeleteSubTask/{id}")]
+    public async Task<ActionResult<bool>> DeleteSubTask(int id)
+    {
+        try
+        {
+            var subTaskToDelete = await _subTaskService.DeleteSubTaskAsync(id);
+            return Ok(subTaskToDelete);
+        }catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 }

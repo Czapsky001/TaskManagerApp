@@ -24,7 +24,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var result = await _authService.RegisterAsync(request.Email, request.Name, request.SurName, request.UserName, request.Password, request.Role);
+        var result = await _authService.RegisterAsync(request.Email, request.Name, request.SurName, request.UserName, request.Password, request.CompanyId ,request.Role);
 
         if (!result.Success)
         {

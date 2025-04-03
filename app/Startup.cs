@@ -1,4 +1,6 @@
 ﻿
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
 using TaskManagerApp.Model;
+using TaskManagerApp.Model.Validator;
 using TaskManagerApp.Repository.SubTasksRepo;
 using TaskManagerApp.Repository.Task;
 using TaskManagerApp.Services.AuthenticationService;
@@ -33,6 +36,12 @@ public class Startup
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidation(fv =>
+        {
+            fv.RegisterValidatorsFromAssemblyContaining<UpdateSubTaskDTOValidator>();
+            fv.RegisterValidatorsFromAssemblyContaining<UpdateTaskDTOValidator>();
         });
 
         services.AddCors();

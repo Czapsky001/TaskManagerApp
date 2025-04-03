@@ -32,9 +32,9 @@ public class AuthService : IAuthService
 
         return new AuthResult(true, managedUser.Email, managedUser.UserName,accessToken);
     }
-    public async Task<AuthResult> RegisterAsync(string email, string name, string surname, string username, string password, string role)
+    public async Task<AuthResult> RegisterAsync(string email, string name, string surname, string username, string password, int companyId, string role)
     {
-        var newUser = new ApplicationUser { UserName = username, Email = email, Name = name, SurName = surname};
+        var newUser = new ApplicationUser { UserName = username, Email = email, Name = name, SurName = surname, CompanyId = companyId};
         var result = await _userManager.CreateAsync(newUser, password);
 
         if (!result.Succeeded) return FailedRegistration(result, email, username);
