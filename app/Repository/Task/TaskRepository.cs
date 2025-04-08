@@ -70,7 +70,7 @@ public class TaskRepository : ITaskRepository
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            throw;
+            return null;
         }
     }
 

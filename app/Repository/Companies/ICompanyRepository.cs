@@ -5,8 +5,8 @@ namespace TaskManagerApp.Repository.Companies;
 
 public interface ICompanyRepository
 {
-    Task<IEnumerable<Company>> GetAllCompaniesAsync();
-    Task<Company> GetByIdAsync(int id);
+    Task<IEnumerable<Company>> GetAllCompanies();
+    Task<Company> GetCompanyByIdAsync(int id);
     Task<bool> CreateCompanyAsync(Company company);
     Task<bool> UpdateCompanyAsync(Company company);
     Task<bool> DeleteCompanyAsync(Company company);

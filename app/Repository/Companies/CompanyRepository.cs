@@ -1,6 +1,5 @@
-﻿using System.Data.Entity;
-using TaskManagerApp.Model;
-using TaskManagerApp.Model.Dto.Company;
+﻿using TaskManagerApp.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagerApp.Repository.Companies;
 
@@ -41,11 +40,11 @@ public class CompanyRepository : ICompanyRepository
         }
     }
 
-    public async Task<IEnumerable<Company>> GetAllCompaniesAsync()
+    public async Task<IEnumerable<Company>> GetAllCompanies()
     {
         try
         {
-            return await _dbContext.Companies.ToListAsync();
+            return await _dbContext.Companies.Include(e => e.WorkTables).Include(c => c.Employees).ToListAsync();
         }catch(Exception ex)
         {
             _logger.LogError(ex.Message, ex);
@@ -53,17 +52,23 @@ public class CompanyRepository : ICompanyRepository
         }
     }
 
-    public async Task<Company> GetByIdAsync(int id)
+    public async Task<Company> GetCompanyByIdAsync(int id)
     {
         try
         {
-            return await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == id);
-        }catch(Exception ex)
+            // FindAsync jest idealny, gdy szukamy po ID (klucz główny)
+            return await _dbContext.Companies
+                                   .Include(e => e.Employees)
+                                   .Include(w => w.WorkTables)
+                                   .FirstOrDefaultAsync(c => c.Id == id); // zamiast FindAsync, używamy FirstOrDefaultAsync z Include
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
-            throw;
+            return null;
         }
     }
+
 
     public async Task<bool> UpdateCompanyAsync(Company company)
     {

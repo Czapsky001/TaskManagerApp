@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
+using TaskManagerApp.Model.Dto.Company;
 using TaskManagerApp.Model.Dto.SubTasks;
 using TaskManagerApp.Model.Dto.Tasks;
 
@@ -27,7 +28,9 @@ public class AutoMapperProfile : Profile
         CreateMap<SubTask, GetSubTaskDTO>()
             .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src => src.CreatedByUser))
             .ForMember(dest => dest.ParentTask, opt => opt.MapFrom(src => src.ParentTask));
-
-
+        CreateMap<CompanyDTO, Company>();
+        CreateMap<Company, CompanyDTO>();
+        CreateMap<CreateCompanyDTO, Company>();
+        CreateMap<UpdateCompanyDTO, Company>();
     }
 }

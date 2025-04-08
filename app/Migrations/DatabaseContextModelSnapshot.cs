@@ -250,7 +250,7 @@ namespace TaskManagerApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerApp.Model.SubTask", b =>
@@ -286,7 +286,7 @@ namespace TaskManagerApp.Migrations
 
                     b.HasIndex("ParentTaskId");
 
-                    b.ToTable("SubTasks");
+                    b.ToTable("SubTasks", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerApp.Model.Tab", b =>
@@ -308,7 +308,7 @@ namespace TaskManagerApp.Migrations
 
                     b.HasIndex("WorkTableId");
 
-                    b.ToTable("Tabs");
+                    b.ToTable("Tabs", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerApp.Model.TaskModel", b =>
@@ -350,7 +350,7 @@ namespace TaskManagerApp.Migrations
 
                     b.HasIndex("TabId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerApp.Model.WorkTable", b =>
@@ -372,7 +372,7 @@ namespace TaskManagerApp.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("WorkTables");
+                    b.ToTable("WorkTables", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

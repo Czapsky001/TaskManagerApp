@@ -11,9 +11,11 @@ using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Validator;
+using TaskManagerApp.Repository.Companies;
 using TaskManagerApp.Repository.SubTasksRepo;
 using TaskManagerApp.Repository.Task;
 using TaskManagerApp.Services.AuthenticationService;
+using TaskManagerApp.Services.Companies;
 using TaskManagerApp.Services.SubTasks;
 using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
@@ -60,9 +62,8 @@ public class Startup
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<ISubTaskRepo, SubTaskRepo>();
         services.AddScoped<ISubTaskService, SubTaskService>();
-
-
-
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<ICompanyService, CompanyService>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
