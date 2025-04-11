@@ -19,6 +19,7 @@ using TaskManagerApp.Services.Companies;
 using TaskManagerApp.Services.SubTasks;
 using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
+using TaskManagerApp.Services.Users;
 
 
 namespace TaskManagerApp;
@@ -40,11 +41,7 @@ public class Startup
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         });
         services.AddFluentValidationAutoValidation();
-        services.AddFluentValidation(fv =>
-        {
-            fv.RegisterValidatorsFromAssemblyContaining<UpdateSubTaskDTOValidator>();
-            fv.RegisterValidatorsFromAssemblyContaining<UpdateTaskDTOValidator>();
-        });
+        services.AddValidatorsFromAssemblyContaining<UpdateUserDTOValidator>();
 
         services.AddCors();
         services.AddEndpointsApiExplorer();
@@ -64,6 +61,7 @@ public class Startup
         services.AddScoped<ISubTaskService, SubTaskService>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
@@ -154,7 +152,7 @@ public class Startup
         {
             option.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Warehouse",
+                Title = "TaskManagerApp",
                 Version = "v1"
             });
 

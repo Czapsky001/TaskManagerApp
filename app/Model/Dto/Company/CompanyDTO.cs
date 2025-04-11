@@ -6,4 +6,5 @@ public class CompanyDTO
     public string Name { get; set; }
 
     public string Email { get; set; }
+    public IEnumerable<UserDTO> Employees { get; set; }
 }

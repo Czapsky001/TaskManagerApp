@@ -2,7 +2,7 @@
 using TaskManagerApp.Model.Authentication;
 using TaskManagerApp.Services.AuthenticationService;
 
-namespace Warehouse.Controllers;
+namespace TaskManagerApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
