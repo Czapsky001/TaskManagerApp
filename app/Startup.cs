@@ -14,12 +14,15 @@ using TaskManagerApp.Model.Validator;
 using TaskManagerApp.Repository.Companies;
 using TaskManagerApp.Repository.SubTasksRepo;
 using TaskManagerApp.Repository.Task;
+using TaskManagerApp.Repository.WorkTable;
+using TaskManagerApp.Repository.WorkTables;
 using TaskManagerApp.Services.AuthenticationService;
 using TaskManagerApp.Services.Companies;
 using TaskManagerApp.Services.SubTasks;
 using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
 using TaskManagerApp.Services.Users;
+using TaskManagerApp.Services.WorkTables;
 
 
 namespace TaskManagerApp;
@@ -62,7 +65,8 @@ public class Startup
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<IUserService, UserService>();
-
+        services.AddScoped<IWorkTableRepository, WorkTableRepository>();
+        services.AddScoped<IWorkTableService, WorkTableService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
     }
@@ -106,7 +110,7 @@ public class Startup
 
         var validIssuer = config["Authentication:ValidIssuer"];
         var validAudience = config["Authentication:ValidAudience"];
-        var issuerSigningKey = Configuration["Authentication:IssuerSigningKey"];
+        var issuerSigningKey = config["Authentication:IssuerSigningKey"]; 
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -115,10 +119,10 @@ public class Startup
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ClockSkew = TimeSpan.Zero,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = false,
                     ValidIssuer = validIssuer,
                     ValidAudience = validAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(
@@ -127,6 +131,7 @@ public class Startup
                 };
             });
     }
+
 
     private void AddIdentity(IServiceCollection services)
     {

@@ -56,11 +56,10 @@ public class CompanyRepository : ICompanyRepository
     {
         try
         {
-            // FindAsync jest idealny, gdy szukamy po ID (klucz główny)
             return await _dbContext.Companies
                                    .Include(e => e.Employees)
                                    .Include(w => w.WorkTables)
-                                   .FirstOrDefaultAsync(c => c.Id == id); // zamiast FindAsync, używamy FirstOrDefaultAsync z Include
+                                   .FirstOrDefaultAsync(c => c.Id == id);
         }
         catch (Exception ex)
         {

@@ -36,13 +36,13 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, 
             .HasOne(st => st.ParentTask)
             .WithMany(t => t.SubTasks)
             .HasForeignKey(st => st.ParentTaskId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<SubTask>()
             .HasOne(st => st.CreatedByUser)
             .WithMany(st => st.SubTasks)
             .HasForeignKey(k => k.CreatedByUserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Company>()
             .HasMany(c => c.WorkTables)
@@ -54,13 +54,13 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser, IdentityRole, 
             .HasMany(w => w.Tabs)
             .WithOne(t => t.WorkTable)
             .HasForeignKey(t => t.WorkTableId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Tab>()
             .HasMany(t => t.Tasks)
             .WithOne(task => task.Tab)
             .HasForeignKey(task => task.TabId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<TaskModel>()
             .HasOne(t => t.Tab)

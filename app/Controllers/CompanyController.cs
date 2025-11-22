@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto.Company;
@@ -17,7 +18,7 @@ public class CompanyController : ControllerBase
         _logger = logger;
         _companyService = companyService;
     }
-    [HttpGet("GetAllCompanies")]
+    [HttpGet("GetAllCompanies"), Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<Company>>> GetAllCompany()
     {
         try
