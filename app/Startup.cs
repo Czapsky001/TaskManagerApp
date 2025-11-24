@@ -25,6 +25,7 @@ using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
 using TaskManagerApp.Services.Users;
 using TaskManagerApp.Services.WorkTables;
+using TaskManagerApp.Middleware;
 
 
 namespace TaskManagerApp;
@@ -102,7 +103,7 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-
+        app.UseGlobalExceptionHandling();
         AddRoles(app);
     }
 
