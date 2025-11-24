@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagerApp.AutoMapper;
+using TaskManagerApp.Middleware;
 using TaskManagerApp.Model;
 using TaskManagerApp.Model.Validator;
 using TaskManagerApp.Repository.Companies;
@@ -25,7 +27,6 @@ using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
 using TaskManagerApp.Services.Users;
 using TaskManagerApp.Services.WorkTables;
-using TaskManagerApp.Middleware;
 
 
 namespace TaskManagerApp;
@@ -189,6 +190,9 @@ public class Startup
                     }, new string[]{ }
                 }
         });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            option.IncludeXmlComments(xmlPath);
         });
     }
 

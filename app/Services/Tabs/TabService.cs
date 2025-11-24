@@ -16,72 +16,35 @@ public class TabService : ITabService
         _tabRepository = tabRepository;
         _mapper = mapper;
     }
+
     public async Task<bool> CreateTabAsync(TabDTO createTabDTO)
     {
-        try
-        {
-            var tabToCreate = _mapper.Map<Tab>(createTabDTO);
-            return await _tabRepository.AddTabAsync(tabToCreate);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
+        var tabToCreate = _mapper.Map<Tab>(createTabDTO);
+        return await _tabRepository.AddTabAsync(tabToCreate);
     }
 
     public async Task<bool> DeleteTabAsync(int id)
     {
-        try
-        {
-            var result = await _tabRepository.GetTabByIdAsync(id); 
-            return await _tabRepository.DeleteTabAsync(result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
+        var result = await _tabRepository.GetTabByIdAsync(id);
+        return await _tabRepository.DeleteTabAsync(result);
     }
 
     public async Task<IEnumerable<Tab>> GetAllTabsAsync()
     {
-        try
-        {
-            return await _tabRepository.GetAllTabsAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return new List<Tab>();
-        }
+        return await _tabRepository.GetAllTabsAsync();
     }
 
     public async Task<Tab> GetTabByIdAsync(int id)
     {
-        try
-        {
-            return await _tabRepository.GetTabByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return null;
-        }
+        return await _tabRepository.GetTabByIdAsync(id);
     }
 
     public async Task<bool> UpdateTabAsync(int id, TabDTO updateTabDTO)
     {
-        try
-        {
-            var tabToUpdate = await _tabRepository.GetTabByIdAsync(id);
-            var result = _mapper.Map(updateTabDTO, tabToUpdate);
-            return await _tabRepository.UpdateTabAsync(result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
+
+        var tabToUpdate = await _tabRepository.GetTabByIdAsync(id);
+        var result = _mapper.Map(updateTabDTO, tabToUpdate);
+        return await _tabRepository.UpdateTabAsync(result);
     }
+
 }

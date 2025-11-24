@@ -19,11 +19,12 @@ public class ExceptionHandlingMiddleware
     {
         try
         {
-            await _next(context); // Continue through pipeline
+            await _next(context);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception occurred");
+
             await HandleExceptionAsync(context, ex);
         }
     }

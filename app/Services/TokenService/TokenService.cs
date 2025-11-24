@@ -58,7 +58,6 @@ public class TokenService : ITokenService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
             throw;
         }
     }

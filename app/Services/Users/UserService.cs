@@ -22,33 +22,17 @@ public class UserService : IUserService
 
     public async Task<ApplicationUser> GetUserByUserIdAsync(string id)
     {
-        try
-        {
             return await _userManager.FindByIdAsync(id);
-        }catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return null;
-        }
     }
 
     public async Task<IEnumerable<UserDTO>> GetUsersByCompanyIdAsync(int companyId)
     {
-        try
-        {
             var result = await _userManager.Users.Where(u => u.CompanyId == companyId).ToListAsync();
             return _mapper.Map<IEnumerable<UserDTO>>(result);
-        }catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return new List<UserDTO>();
-        }
     }
 
     public async Task<bool> UpdateUserAsync(string id, UpdateUserDTO updateUserDTO)
     {
-        try
-        {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -62,16 +46,9 @@ public class UserService : IUserService
                 return true;
             }
             return false;
-        }catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
     }
     public async Task<bool> DeleteUserAsync(string id)
     {
-        try
-        {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -84,10 +61,5 @@ public class UserService : IUserService
                 return true;
             }
             return false;
-        }catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return false;
-        }
     }
 }
