@@ -13,12 +13,14 @@ using TaskManagerApp.Model;
 using TaskManagerApp.Model.Validator;
 using TaskManagerApp.Repository.Companies;
 using TaskManagerApp.Repository.SubTasksRepo;
+using TaskManagerApp.Repository.Tabs;
 using TaskManagerApp.Repository.Task;
 using TaskManagerApp.Repository.WorkTable;
 using TaskManagerApp.Repository.WorkTables;
 using TaskManagerApp.Services.AuthenticationService;
 using TaskManagerApp.Services.Companies;
 using TaskManagerApp.Services.SubTasks;
+using TaskManagerApp.Services.Tabs;
 using TaskManagerApp.Services.Task;
 using TaskManagerApp.Services.TokenService;
 using TaskManagerApp.Services.Users;
@@ -69,6 +71,8 @@ public class Startup
         services.AddScoped<IWorkTableService, WorkTableService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ITabRepository, TabRepository>();
+        services.AddScoped<ITabService,  TabService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

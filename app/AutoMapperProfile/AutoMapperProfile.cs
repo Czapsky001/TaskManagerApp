@@ -3,6 +3,7 @@ using TaskManagerApp.Model;
 using TaskManagerApp.Model.Dto;
 using TaskManagerApp.Model.Dto.Company;
 using TaskManagerApp.Model.Dto.SubTasks;
+using TaskManagerApp.Model.Dto.Tabs;
 using TaskManagerApp.Model.Dto.Tasks;
 using TaskManagerApp.Model.Dto.User;
 using TaskManagerApp.Model.Dto.WorkTables;
@@ -37,5 +38,6 @@ public class AutoMapperProfile : Profile
         CreateMap<UpdateUserDTO, ApplicationUser>();
         CreateMap<CreateWorkTableDTO, WorkTable>();
         CreateMap<UpdateWorkTableDTO, WorkTable>();
+        CreateMap<TabDTO, Tab>();
     }
 }

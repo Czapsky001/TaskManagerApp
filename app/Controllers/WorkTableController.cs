@@ -20,7 +20,7 @@ public class WorkTableController : ControllerBase
     }
     // GET: api/<WorkTableController>
     [HttpPost("CreateWorkTable")]
-    public async Task<ActionResult<bool>> CreateWorkTable(CreateWorkTableDTO createWorkTableDTO)
+    public async Task<ActionResult<bool>> CreateWorkTableAsync(CreateWorkTableDTO createWorkTableDTO)
     {
         try
         {
@@ -74,11 +74,11 @@ public class WorkTableController : ControllerBase
         }
     }
     [HttpGet("GetAllWorkTables")]
-    public async Task<IEnumerable<WorkTable>> GetAllWorkTablesAsync()
+    public async Task<ActionResult<IEnumerable<WorkTable>>> GetAllWorkTablesAsync()
     {
         try
         {
-            return await _workTableService.GetAllWorkTablesAsync();
+            return Ok(await _workTableService.GetAllWorkTablesAsync());
         }
         catch (Exception ex)
         {
